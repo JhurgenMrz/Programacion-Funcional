@@ -84,8 +84,24 @@ const add = () =>{
 
   list.push(newItem)
   cleanInputs()
+  updateTotals()
 
   console.log(list)
+}
+
+const updateTotals = () => {
+  let calories = 0, carbs = 0, protein=0
+  list.map(item => {
+    calories += item.calories,
+    carbs += item.carbs,
+    protein += item.protein
+  }) 
+
+  $('#totalCalories').text(calories)
+  $('#totalCarbs').text(carbs)
+  $('#totalProtein').text(protein)
+
+
 }
 
 const cleanInputs = () => {
