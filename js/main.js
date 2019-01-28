@@ -1,14 +1,6 @@
 const compose = (...functions) => data =>
   functions.reduceRight((value, func) => func(value), data)
 
-
-// {
-//   tag:'h1',
-//   attr: {
-//     class: 'title'
-//   }
-// }
-
 const attrsToString = (obj = {}) => {
 const keys = Object.keys(obj)
 const attrs = []
@@ -18,12 +10,16 @@ const attrs = []
     attrs.push(`${attr}='${obj[attr]}'`)
   }
   const string = attrs.join('')
-
   return string
-
-} //Return to String 
-
-const tag = t => content => `<${t}>${content}</${t}>`
+}
+const tagAttrs = obj => (content = '') => `<${obj.tag}${obj.attrs ? ' ' :''}${attrsToString(obj.attrs)}>${content}</${obj.tag}>`
+const tag = t => {
+  if(typeof t === 'string'){
+    tagAttrs({tag: t})
+  }else{
+    tagAttrs(t)
+  }
+}
 
 // console.log(tag('h1')('Title'))
 
@@ -31,7 +27,6 @@ let description = $('#description')
 let carbs = $('#carbs')
 let calories = $('#calories')
 let protein = $('#protein')
-
 
 let list = []
 
@@ -56,7 +51,6 @@ carbs.keypress(()=>{
 protein.keypress(()=>{
   protein.removeClass('is-invalid')
 })
-
 
 const validateInputs = () =>{
 
@@ -86,7 +80,6 @@ const add = () =>{
 
   console.log(list)
 }
-
 
 const cleanInputs = () => {
   description.val(''),
