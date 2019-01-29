@@ -9,7 +9,7 @@ const attrs = []
     let attr = keys[i]
     attrs.push(`${attr}='${obj[attr]}'`)
   }
-  const string = attrs.join('')
+  const string = attrs.join(' ')
   return string
 }
 const tagAttrs = obj => (content = '') => `<${obj.tag}${obj.attrs ? ' ' :''}${attrsToString(obj.attrs)}>${content}</${obj.tag}>`
@@ -21,12 +21,11 @@ const tag = t => {
   }
 }
 
-const tableRowTag = tag('tr')
-// const tableRow = items => tableRowTag(tableCells(items))
+const tableRowTag = tag('tr');
 const tableRow = items => compose(tableRowTag,tableCells)(items)
 
-const tableCell = tag('td')
-const tableCells = items => item.map(tableCell).join('')
+const tableCell = tag('td');
+const tableCells = items => items.map(tableCell).join('') 
 
 // console.log(tag('h1')('Title'))
 
@@ -83,10 +82,10 @@ const add = () =>{
   }
 
   list.push(newItem)
-  cleanInputs()
   updateTotals()
-
-  console.log(list)
+  cleanInputs()
+  renderItems()
+  // console.log(list)
 }
 
 const updateTotals = () => {
@@ -111,3 +110,28 @@ const cleanInputs = () => {
   protein.val('')
 }
 
+// const renderItems = () => {
+//   $('tbody').empty()
+
+//   list.map(item=>{
+//     $('tbody').append(tableRow([item.description, item.calories, item.carbs, item.protein]))
+//   })
+// }
+
+const renderItems = ()=>{
+  document.querySelector('tbody').innerHTML = ''
+
+  list.map(item => {
+    const row = document.createElement('tr')
+
+    row.innerHTML = tableRow([
+      item.description,
+      item.calories,
+      item.carbs,
+      item.protein
+    ])
+
+    document.querySelector('tbody').appendChild(row)
+
+  })
+}
